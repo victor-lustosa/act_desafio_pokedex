@@ -1,6 +1,11 @@
 import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
 import 'package:dartz/dartz.dart';
 
+class ResponseDTO{
+  ResponseDTO({required this.statusCode, required this.data});
+  final int statusCode;
+  final dynamic data;
+}
 
 abstract class Repository<R> implements GetRepository<R>, GetBySearchRepository<R> {}
 

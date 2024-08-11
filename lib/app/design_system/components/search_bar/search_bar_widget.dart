@@ -28,47 +28,60 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return Container(
       margin: const EdgeInsets.only(
         left: 16,
-        right: 19,
+        right: 16,
+        bottom: 5
       ),
-      child: FormFieldWidget(
-        onChange: widget.onChange,
-        fieldHeight: 48,
-        fieldWidth: context.sizeOf.width,
-        controller: widget.controller,
-        fieldDecoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.cyan,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: context.sizeOf.width * .74,
+            child: FormFieldWidget(
+              fieldHeight: 48,
+              onChange: widget.onChange,
+              fieldWidth: context.sizeOf.width,
+              controller: widget.controller,
+              fieldDecoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.cyan,
+                ),
+                borderRadius: BorderRadius.circular(11),
+              ),
+              isValid: isValid,
+              validator: (value) => null,
+              inputDecoration: InputDecoration(
+                border: InputBorder.none,
+                hintStyle: AppFonts.defaultFont(
+                  fontSize: 12,
+                  color: Colors.black45,
+                ),
+                contentPadding: const EdgeInsets.only(
+                  left: 16,
+                ),
+                hintText: 'Digite o nome de um pokemon',
+              ), colorStyle: AppColors.hintInputForm,
+            ),
           ),
-          borderRadius: BorderRadius.circular(11),
-        ),
-        isValid: isValid,
-        validator: (value) => null,
-        inputDecoration: InputDecoration(
-          // suffixIcon: InkWell(
-          //   onTap: () {
-          //
-          //   },
-          //   child: IconButtonWidget(
-          //     size: 28,
-          //     color: Colors.black38,
-          //     splashColor: Colors.transparent,
-          //     highlightColor: Colors.transparent,
-          //     iOSIcon: CupertinoIcons.search,
-          //     androidIcon: Icons.search_sharp,
-          //     action: widget.action,
-          //   ),
-          // ),
-          border: InputBorder.none,
-          hintStyle: AppFonts.defaultFont(
-            fontSize: 12,
-            color: Colors.black45,
+          InkWell(
+            onTap: widget.action,
+            child: IconButtonWidget(
+              size: 48,
+              sizeIcon: 24,decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.cyan,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(20))
+            ),
+              color: Colors.black38,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              iOSIcon: CupertinoIcons.search,
+              androidIcon: Icons.search_sharp,
+              action: widget.action,
+            ),
           ),
-          contentPadding: const EdgeInsets.only(
-            left: 16,
-          ),
-          hintText: 'Digite o termo de pesquisa',
-        ), colorStyle: AppColors.hintInputForm,
+        ],
       ),
     );
   }

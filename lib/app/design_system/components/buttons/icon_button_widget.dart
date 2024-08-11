@@ -12,18 +12,20 @@ class IconButtonWidget extends StatelessWidget {
         this.splashColor,
         this.highlightColor,
         required this.iOSIcon,
-        required this.androidIcon, this.sizeIcon});
+        required this.androidIcon, this.sizeIcon, this.decoration});
   final double? size;
   final double? sizeIcon;
   final IconData iOSIcon;
   final IconData androidIcon;
   final Color? color;
   final VoidCallback? action;
+  final Decoration? decoration;
   final Color? splashColor;
   final Color? highlightColor;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      decoration: decoration,
       height: size,
       width: size,
       child: Platform.isIOS

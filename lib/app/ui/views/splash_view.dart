@@ -84,9 +84,12 @@ class _SplashViewState extends State<SplashView> {
               return const SizedBox();
             } else if (store.state is ExceptionState) {
               return Center(
-                child: Text(
-                  (store.state as ExceptionState).message,
-                  style: AppFonts.defaultFont(color: Colors.red),
+                child: SizedBox(
+                  width: 300,
+                  child: Text(
+                    (store.state as ExceptionState).message,
+                    style: AppFonts.defaultFont(color: Colors.red),
+                  ),
                 ),
               );
             } else {

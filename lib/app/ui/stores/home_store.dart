@@ -14,35 +14,51 @@ abstract class HomeStore with Store {
   HomeStore({required PokemonUseCase useCases}) : _useCases = useCases;
 
   @observable
-  final TextEditingController searchController = TextEditingController();
+   TextEditingController searchController = TextEditingController();
+
+  @observable
+   ScrollController scrollController = ScrollController(initialScrollOffset: 0);
 
   @observable
   PokemonUseCase _useCases;
 
   @observable
-  int page = 20;
+  int currentPage = 3;
 
   @observable
   int offset = 0;
 
+  @computed
+  int get nextPage => currentPage + 3;
+
   @observable
   GenericState state = InitialState();
-
-  onChange(String value) async{
-    if(value.length > 2){
-      final result = await _useCases.get(page.toString(), offset.toString());
-      result.fold((GetException e) => {
+  // fetchData(
+  // nextPage: currentPage.toString(),
+  // offsetParam: offset.toString());
+  onAction() async{
+    if(searchController.text.length > 2){
+      final result = await _useCases.getBySearch(searchController.text.toLowerCase());
+      result.fold((SearchException e) => {
         state = ExceptionState(message: e.message)
       }, (entities) => {
         if(entities != null) state = DataFetchedState<List<PokemonEntity>>(entities: entities)
         else state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.')
       });
+    } else if(searchController.text.isEmpty){
+      fetchData(nextPage: '0',offsetParam: '0');
+    }
+  }
+  onChange(String value) async{
+    if(value.isEmpty){
+      fetchData(nextPage: '0',offsetParam: '0');
     }
   }
 
   @action
-  Future<void> fetchData() async {
-    final result = await _useCases.get(page.toString(), offset.toString());
+  Future<void> fetchData({String? nextPage, String? offsetParam}) async {
+    if(nextPage != null) currentPage = int.parse(nextPage);
+    final result = await _useCases.get(nextPage ?? currentPage.toString(), offsetParam ?? offset.toString());
     result.fold((GetException e) => {
       state = ExceptionState(message: e.message)
     }, (entities) => {
@@ -50,4 +66,5 @@ abstract class HomeStore with Store {
       else state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.')
     });
   }
+
 }

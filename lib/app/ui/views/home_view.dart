@@ -1,13 +1,12 @@
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
+import 'package:act_desafio_pokedex/app/design_system/components/app_bar/app_bar_widget.dart';
 import 'package:act_desafio_pokedex/app/shared/states/generic_states.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../core/di/dependencies_injection.dart';
 import '../../design_system/components/loadings/loadings_widget.dart';
-import '../../design_system/components/search_bar/search_bar_widget.dart';
 import '../../design_system/configs/app_fonts.dart';
 import '../stores/home_store.dart';
 
@@ -28,60 +27,78 @@ class _HomeViewState extends State<HomeView> {
     store.fetchData();
   }
 
+  defaultMessage(String message, Color color) => Center(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 100),
+          width: 250,
+          child: Text(
+            message,
+            style: AppFonts.defaultFont(color: color),
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBarWidget(
+          store: store,
+        ),
+        body: SizedBox(
           width: context.sizeOf.width,
           height: context.sizeOf.height,
           child: Observer(
             builder: (_) {
               if (store.state is DataFetchedState) {
                 List<PokemonEntity> pokemonsList = (store.state as DataFetchedState).entities;
+                if (pokemonsList.isEmpty) {
+                  return defaultMessage('Não foi encontrado nenhum pockemon com esse nome.',Colors.cyan);
+                }
                 return Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 13),
-                      child: SearchBarWidget(
-                        controller: store.searchController,
-                      ),
-                    ),
                     Expanded(
                       child: ListView.separated(
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox(height: 16);
                         },
-                        padding:const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 20),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: pokemonsList.length,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
-                            child: Container(
-                              height: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(18),
-                                ),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    pokemonsList[index].image,
-                                  ),
-                                ),
-                              ),
+                            child: Card(
+                              elevation: 2,
+                              color: Colors.white,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.only(left: 16),
+                                    margin: const EdgeInsets.only(
+                                        left: 16, top: 10),
                                     child: Text(
                                       pokemonsList[index].name,
                                       style: AppFonts.defaultFont(
-                                        color: Colors.black54,
+                                        color: Colors.black87,
                                         fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(18),
+                                      ),
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(
+                                          pokemonsList[index].image,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -95,17 +112,14 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 );
               } else if (store.state is ExceptionState) {
-                return Center(
-                  child: Text(
-                    (store.state as ExceptionState).message,
-                    style: AppFonts.defaultFont(color: Colors.red),
+                return defaultMessage((store.state as ExceptionState).message, Colors.red);
+              } else {
+                return const Center(
+                  child: LoadingWidget(
+                    androidRadius: 4,
+                    iosRadius: 14,
                   ),
                 );
-              } else {
-                return const Center(child: LoadingWidget(
-                  androidRadius: 4,
-                  iosRadius: 14,
-                ),);
               }
             },
           ),

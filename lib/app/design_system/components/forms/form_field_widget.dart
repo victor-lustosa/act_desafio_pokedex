@@ -72,7 +72,7 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
     return Container(
       padding: widget.horizontalSymmetric,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Visibility(
             visible: widget.title != null,
@@ -105,6 +105,7 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
               obscureText: widget.obscureText ?? false,
               key: widget.fieldKey,
               enabled: widget.isSubmitted,
+              onChanged: widget.onChange,
               cursorColor: widget.cursorColor ?? AppColors.formGrey,
               autovalidateMode:
               widget.autoValidateMode ?? AutovalidateMode.onUserInteraction,

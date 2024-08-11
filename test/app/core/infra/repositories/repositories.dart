@@ -1,8 +1,9 @@
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_detail_entity.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
+import 'package:act_desafio_pokedex/app/core/domain/repositories/repository.dart';
 import 'package:act_desafio_pokedex/app/core/infra/repositories/pokemon_repository_impl.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import '../../../../mocks/mocks.dart';
@@ -27,8 +28,7 @@ main() {
     };
 
     when(() => client.get(any())).thenAnswer(
-      (_) async => Response(
-        requestOptions: RequestOptions(path: ''),
+      (_) async => ResponseDTO(
         statusCode: 200,
         data: jsonResponse,
       ),
@@ -67,8 +67,7 @@ main() {
     };
 
     when(() => client.get(any())).thenAnswer(
-      (_) async => Response(
-        requestOptions: RequestOptions(path: ''),
+      (_) async => ResponseDTO(
         statusCode: 200,
         data: jsonResponse,
       ),
@@ -91,8 +90,7 @@ main() {
     };
 
     when(() => client.get(any())).thenAnswer(
-      (_) async => Response(
-        requestOptions: RequestOptions(path: ''),
+      (_) async => ResponseDTO(
         statusCode: 200,
         data: jsonResponse,
       ),
@@ -133,8 +131,7 @@ main() {
         };
 
         when(() => client.get(any())).thenAnswer(
-              (_) async => Response(
-            requestOptions: RequestOptions(path: ''),
+              (_) async => ResponseDTO(
             statusCode: 200,
             data: jsonResponse,
           ),

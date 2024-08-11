@@ -9,6 +9,45 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HomeStoreImpl on HomeStore, Store {
+  Computed<int>? _$nextPageComputed;
+
+  @override
+  int get nextPage => (_$nextPageComputed ??=
+          Computed<int>(() => super.nextPage, name: 'HomeStore.nextPage'))
+      .value;
+
+  late final _$searchControllerAtom =
+      Atom(name: 'HomeStore.searchController', context: context);
+
+  @override
+  TextEditingController get searchController {
+    _$searchControllerAtom.reportRead();
+    return super.searchController;
+  }
+
+  @override
+  set searchController(TextEditingController value) {
+    _$searchControllerAtom.reportWrite(value, super.searchController, () {
+      super.searchController = value;
+    });
+  }
+
+  late final _$scrollControllerAtom =
+      Atom(name: 'HomeStore.scrollController', context: context);
+
+  @override
+  ScrollController get scrollController {
+    _$scrollControllerAtom.reportRead();
+    return super.scrollController;
+  }
+
+  @override
+  set scrollController(ScrollController value) {
+    _$scrollControllerAtom.reportWrite(value, super.scrollController, () {
+      super.scrollController = value;
+    });
+  }
+
   late final _$_useCasesAtom =
       Atom(name: 'HomeStore._useCases', context: context);
 
@@ -25,18 +64,19 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     });
   }
 
-  late final _$pageAtom = Atom(name: 'HomeStore.page', context: context);
+  late final _$currentPageAtom =
+      Atom(name: 'HomeStore.currentPage', context: context);
 
   @override
-  int get page {
-    _$pageAtom.reportRead();
-    return super.page;
+  int get currentPage {
+    _$currentPageAtom.reportRead();
+    return super.currentPage;
   }
 
   @override
-  set page(int value) {
-    _$pageAtom.reportWrite(value, super.page, () {
-      super.page = value;
+  set currentPage(int value) {
+    _$currentPageAtom.reportWrite(value, super.currentPage, () {
+      super.currentPage = value;
     });
   }
 
@@ -74,16 +114,20 @@ mixin _$HomeStoreImpl on HomeStore, Store {
       AsyncAction('HomeStore.fetchData', context: context);
 
   @override
-  Future<void> fetchData() {
-    return _$fetchDataAsyncAction.run(() => super.fetchData());
+  Future<void> fetchData({String? nextPage, String? offsetParam}) {
+    return _$fetchDataAsyncAction.run(
+        () => super.fetchData(nextPage: nextPage, offsetParam: offsetParam));
   }
 
   @override
   String toString() {
     return '''
-page: ${page},
+searchController: ${searchController},
+scrollController: ${scrollController},
+currentPage: ${currentPage},
 offset: ${offset},
-state: ${state}
+state: ${state},
+nextPage: ${nextPage}
     ''';
   }
 }

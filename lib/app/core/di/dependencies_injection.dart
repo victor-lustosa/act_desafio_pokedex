@@ -1,4 +1,3 @@
-import 'package:act_desafio_pokedex/app/core/domain/use_cases/use_cases.dart';
 import 'package:act_desafio_pokedex/app/core/external/dio_external.dart';
 import 'package:act_desafio_pokedex/app/core/infra/repositories/pokemon_repository_impl.dart';
 import 'package:act_desafio_pokedex/app/core/infra/use_cases/pokemon_use_case_impl.dart';

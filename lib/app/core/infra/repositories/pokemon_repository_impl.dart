@@ -26,6 +26,7 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   Future<Either<GetException,List<PokemonEntity>>> get(String page, String offset) async{
     try{
       final response = await client.get('${AppConsts.pokemonsUrl}?limit=$page,&offset=$offset');
+      if(response.statusCode != 200)  return const Right([]);
       return Right(PokemonAdapter().fromMapList(response.data));
     } catch(_){
       return Left(GetException('ocorreu um erro ao trazer dados do servidor'));
@@ -35,7 +36,8 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   @override
   Future<Either<SearchException,List<PokemonEntity>>> getBySearch(String query) async{
     try{
-      final response = await client.get('${AppConsts.pokemonsUrl}$query');
+      final ResponseDTO response = await client.get('${AppConsts.pokemonsUrl}$query');
+      if(response.statusCode != 200)  return const Right([]);
       return Right(PokemonAdapter().fromMapList(response.data));
     } catch(_){
       return Left(SearchException('ocorreu um erro ao trazer dados do servidor'));
@@ -46,6 +48,7 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   Future<Either<DetailException, PokemonDetailEntity?>> getPokemonDetail(String id) async {
     try{
       final response = await client.get('${AppConsts.pokemonsUrl}$id');
+      if(response.statusCode != 200)  return Right(PokemonDetailEntity.empty());
       return Right(PokemonDetailAdapter().fromMap(response.data));
     } catch(_){
       return Left(DetailException('ocorreu um erro ao trazer dados do servidor'));
