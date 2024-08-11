@@ -15,12 +15,13 @@ class PokemonAdapter {
    List<PokemonEntity> fromMapList(dynamic data) {
     List<PokemonEntity> list = [];
     for (dynamic entity in data['results']) {
-     String url = entity['url'];
+     String url = entity['url'].substring(34);
+     List<String> paths = url.split('/');
       list.add(
         PokemonEntity(
           name: entity['name'],
           url: entity['url'],
-          image: '${AppConsts.pokemonImagesUrl}${url.substring(34, 35)}.png',
+          image: '${AppConsts.pokemonImagesUrl}${paths[0]}.png',
         ),
       );
     }
