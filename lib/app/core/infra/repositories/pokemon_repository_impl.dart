@@ -5,9 +5,8 @@ import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
 import 'package:act_desafio_pokedex/app/core/domain/repositories/repository.dart';
 import 'package:act_desafio_pokedex/app/core/infra/adapters/pokemon_adapter.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 
-import '../../configs/app_consts/app_consts.dart';
+import '../../configs/app_consts.dart';
 import '../../domain/entities/pokemon_detail_entity.dart';
 import '../../external/dio_external.dart';
 import '../adapters/pokemon_detail_adapter.dart';
