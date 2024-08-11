@@ -12,7 +12,7 @@ class PokemonAdapter {
 
    List<PokemonEntity> fromMapList(dynamic data) {
     List<PokemonEntity> list = [];
-    for (dynamic entity in data) {
+    for (dynamic entity in data['results']) {
       list.add(
         PokemonEntity(
           name: entity['name'],

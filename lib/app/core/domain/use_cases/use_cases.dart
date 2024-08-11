@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 
 import '../exceptions/exceptions.dart';
 
-abstract class UseCases
-    implements GetUseCases, GetBySearchUseCases {}
+abstract class UseCases<R>
+    implements GetUseCases<R>, GetBySearchUseCases<R> {}
 
 abstract class GetUseCases<R> {
-  Future<R?> get(String page, String offset);
+  Future<Either<GetException, R?>> get(String page, String offset);
 }
 
 abstract class GetBySearchUseCases<R> {
-  Future<R?> getBySearch(String query);
+  Future<Either<SearchException, R?>> getBySearch(String query);
 }

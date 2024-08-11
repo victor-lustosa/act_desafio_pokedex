@@ -1,32 +1,41 @@
 import 'dart:convert';
 
+import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_detail_entity.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
+import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
 import 'package:act_desafio_pokedex/app/core/infra/repositories/pokemon_repository_impl.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import '../../../../mocks/mocks.dart';
-import 'package:http/http.dart' as http;
 
 main() {
-  late MockHttpClient client;
+  late ClientExternalMock client;
   late final PokemonRepositoryImpl repository;
+
   setUpAll(() {
-    // Registrar o valor de fallback para Uri
-    registerFallbackValue(FakeUri());
-  });
-  setUp(() {
-    client = MockHttpClient();
+    client = ClientExternalMock();
     repository = PokemonRepositoryImpl(client: client);
   });
 
-  test('Deve retornar os dados da API e transforma-los para a lista de entities', () async {
+  test('Deve retornar a lista de pokemons da API e transforma-los', () async {
     final jsonResponse = jsonEncode({
       "results": [
-        {"name": "Pikachu", "url": "https://pokeapi.co/api/v2/pokemon/25/"},
-        {"name": "Charmander", "url": "https://pokeapi.co/api/v2/pokemon/4/"}
+        {
+          "name": "Pikachu",
+          "url": "https://pokeapi.co/api/v2/pokemon/25/",
+        },
       ]
     });
-    when(() => client.get(any())).thenAnswer((_) async => http.Response(jsonResponse, 200));
+
+    when(() => client.get(any())).thenAnswer(
+      (_) async => Response(
+        requestOptions: RequestOptions(path: ''),
+        statusCode: 200,
+        data: jsonResponse,
+      ),
+    );
+
     when(() => PokemonAdapterMock().fromMapList(any()))
         .thenReturn(<PokemonEntity>[]);
 
@@ -34,31 +43,115 @@ main() {
 
     expect(result.isRight(), isTrue);
     expect(result.getOrElse(() => []), isA<List<PokemonEntity>>());
+    verify(() => client.get(any())).called(1);
   });
-}
 
-//
-//   test('Deve retornar uma exception em caso de erro', () async {
-//     when(() => repository.get('', ''))
-//         .thenAnswer((_) async => Left(GetException()));
-//     final result = await usecases.get('', '');
-//     expect(result.isLeft(), true);
-//     expect(result.fold(id, id), isA<GetException>());
-//   });
-//
-//   test('Deve retornar uma lista de pokemons por pesquisa', () async {
-//     when(() => repository.getBySearch(''))
-//         .thenAnswer((_) async => const Right(<PokemonEntity>[]));
-//     final result = await usecases.getBySearch('');
-//     expect(result, isA<Right>());
-//     expect(result | null, isA<List<PokemonEntity>>());
-//   });
-//
-//   test('Deve retornar uma exception em caso de erro ao pesquisar', () async {
-//     when(() => repository.getBySearch(''))
-//         .thenAnswer((_) async => Left(SearchException()));
-//     final result = await usecases.getBySearch('');
-//     expect(result.isLeft(), true);
-//     expect(result.fold(id, id), isA<SearchException>());
-//   });
-// }
+  test('Deve retornar uma exception ao buscar a lista de pokemons da API',
+      () async {
+    when(() => client.get(any())).thenThrow(GetException());
+
+    final result = await repository.get('', '');
+
+    expect(result.isLeft(), isTrue);
+    expect(result.swap().getOrElse(() => GetException()), isA<GetException>());
+    verify(() => client.get(any())).called(1);
+  });
+
+  test('Deve retornar uma exception ao transformar a lista de pokemons da API',
+      () async {
+    final jsonResponse = jsonEncode({
+      "results": [
+        {
+          "nume": "Charmander",
+          "url": "https://pokeapi.co/api/v2/pokemon/4/",
+        }
+      ]
+    });
+
+    when(() => client.get(any())).thenAnswer(
+      (_) async => Response(
+        requestOptions: RequestOptions(path: ''),
+        statusCode: 200,
+        data: jsonResponse,
+      ),
+    );
+
+    final result = await repository.get('', '');
+
+    expect(result.isLeft(), isTrue);
+    expect(result.swap().getOrElse(() => GetException()), isA<GetException>());
+    verify(() => client.get(any())).called(1);
+  });
+
+  test('Deve retornar o detalhamento do pokemon da API e transforma-lo',
+      () async {
+    final jsonResponse = jsonEncode({
+      "results": [
+        {
+          "name": "Pikachu",
+          "id": 0,
+          "height": 0,
+          "weight": 0,
+        },
+      ]
+    });
+
+    when(() => client.get(any())).thenAnswer(
+      (_) async => Response(
+        requestOptions: RequestOptions(path: ''),
+        statusCode: 200,
+        data: jsonResponse,
+      ),
+    );
+
+    when(() => PokemonDetailAdapterMock().fromMap(any()))
+        .thenReturn(PokemonDetailEntity.empty());
+
+    final result = await repository.getPokemonDetail('');
+
+    expect(result.isRight(), isTrue);
+    expect(result.getOrElse(() => null), isA<PokemonDetailEntity>());
+    verify(() => client.get(any())).called(1);
+  });
+
+  test('Deve retornar exception ao buscar detalhamento do pokemon da API',
+          () async {
+
+       when(() => client.get(any())).thenThrow(DetailException());
+
+        final result = await repository.getPokemonDetail('');
+       expect(result.isLeft(), isTrue);
+       expect(result.swap().getOrElse(() => DetailException()), isA<DetailException>());
+       verify(() => client.get(any())).called(1);
+      });
+
+  test('Deve retornar uma exception ao transformar o detalhamento do pokemon da API',
+          () async {
+        final jsonResponse = jsonEncode({
+          "results": [
+            {
+              "name": "Pikachu",
+              "id": "0",
+              "height": 0,
+              "weight": 0,
+            },
+          ]
+        });
+
+        when(() => client.get(any())).thenAnswer(
+              (_) async => Response(
+            requestOptions: RequestOptions(path: ''),
+            statusCode: 200,
+            data: jsonResponse,
+          ),
+        );
+
+        when(() => PokemonDetailAdapterMock().fromMap(any()))
+            .thenReturn(PokemonDetailEntity.empty());
+
+        final result = await repository.getPokemonDetail('');
+        expect(result.isLeft(), isTrue);
+        expect(result.swap().getOrElse(() => DetailException()), isA<DetailException>());
+        verify(() => client.get(any())).called(1);
+      });
+}
