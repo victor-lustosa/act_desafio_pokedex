@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:act_desafio_pokedex/app/core/di/dependencies_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +12,8 @@ import 'app/ui/views/splash_view.dart';
 void main() async {
   runZonedGuarded<Future<void>>(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      initDependencies();
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]).then(

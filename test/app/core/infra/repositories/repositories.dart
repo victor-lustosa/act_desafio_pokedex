@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_detail_entity.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
@@ -19,14 +17,14 @@ main() {
   });
 
   test('Deve retornar a lista de pokemons da API e transforma-los', () async {
-    final jsonResponse = jsonEncode({
+    final jsonResponse = {
       "results": [
         {
           "name": "Pikachu",
           "url": "https://pokeapi.co/api/v2/pokemon/25/",
         },
       ]
-    });
+    };
 
     when(() => client.get(any())).thenAnswer(
       (_) async => Response(
@@ -48,25 +46,25 @@ main() {
 
   test('Deve retornar uma exception ao buscar a lista de pokemons da API',
       () async {
-    when(() => client.get(any())).thenThrow(GetException());
+    when(() => client.get(any())).thenThrow(GetException(''));
 
     final result = await repository.get('', '');
 
     expect(result.isLeft(), isTrue);
-    expect(result.swap().getOrElse(() => GetException()), isA<GetException>());
+    expect(result.swap().getOrElse(() => GetException('')), isA<GetException>());
     verify(() => client.get(any())).called(1);
   });
 
   test('Deve retornar uma exception ao transformar a lista de pokemons da API',
       () async {
-    final jsonResponse = jsonEncode({
+    final jsonResponse = {
       "results": [
         {
           "nume": "Charmander",
           "url": "https://pokeapi.co/api/v2/pokemon/4/",
         }
       ]
-    });
+    };
 
     when(() => client.get(any())).thenAnswer(
       (_) async => Response(
@@ -79,22 +77,18 @@ main() {
     final result = await repository.get('', '');
 
     expect(result.isLeft(), isTrue);
-    expect(result.swap().getOrElse(() => GetException()), isA<GetException>());
+    expect(result.swap().getOrElse(() => GetException('')), isA<GetException>());
     verify(() => client.get(any())).called(1);
   });
 
   test('Deve retornar o detalhamento do pokemon da API e transforma-lo',
       () async {
-    final jsonResponse = jsonEncode({
-      "results": [
-        {
-          "name": "Pikachu",
-          "id": 0,
-          "height": 0,
-          "weight": 0,
-        },
-      ]
-    });
+    final jsonResponse = {
+        "name": "chlorophyll",
+        "id": 0,
+        'weight' : 0,
+        'height': 0
+    };
 
     when(() => client.get(any())).thenAnswer(
       (_) async => Response(
@@ -117,17 +111,17 @@ main() {
   test('Deve retornar exception ao buscar detalhamento do pokemon da API',
           () async {
 
-       when(() => client.get(any())).thenThrow(DetailException());
+       when(() => client.get(any())).thenThrow(DetailException(''));
 
         final result = await repository.getPokemonDetail('');
        expect(result.isLeft(), isTrue);
-       expect(result.swap().getOrElse(() => DetailException()), isA<DetailException>());
+       expect(result.swap().getOrElse(() => DetailException('')), isA<DetailException>());
        verify(() => client.get(any())).called(1);
       });
 
   test('Deve retornar uma exception ao transformar o detalhamento do pokemon da API',
           () async {
-        final jsonResponse = jsonEncode({
+        final jsonResponse = {
           "results": [
             {
               "name": "Pikachu",
@@ -136,7 +130,7 @@ main() {
               "weight": 0,
             },
           ]
-        });
+        };
 
         when(() => client.get(any())).thenAnswer(
               (_) async => Response(
@@ -151,7 +145,7 @@ main() {
 
         final result = await repository.getPokemonDetail('');
         expect(result.isLeft(), isTrue);
-        expect(result.swap().getOrElse(() => DetailException()), isA<DetailException>());
+        expect(result.swap().getOrElse(() => DetailException('')), isA<DetailException>());
         verify(() => client.get(any())).called(1);
       });
 }

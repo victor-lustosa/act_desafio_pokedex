@@ -26,9 +26,9 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   Future<Either<GetException,List<PokemonEntity>>> get(String page, String offset) async{
     try{
       final response = await client.get('${AppConsts.pokemonsUrl}?limit=$page,&offset=$offset');
-      return Right(PokemonAdapter().fromMapList(jsonDecode(response.data)));
+      return Right(PokemonAdapter().fromMapList(response.data));
     } catch(_){
-      return Left(GetException());
+      return Left(GetException('ocorreu um erro ao trazer dados do servidor'));
     }
   }
 
@@ -36,9 +36,9 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   Future<Either<SearchException,List<PokemonEntity>>> getBySearch(String query) async{
     try{
       final response = await client.get('${AppConsts.pokemonsUrl}$query');
-      return Right(PokemonAdapter().fromMapList(jsonDecode(response.data)));
+      return Right(PokemonAdapter().fromMapList(response.data));
     } catch(_){
-      return Left(SearchException());
+      return Left(SearchException('ocorreu um erro ao trazer dados do servidor'));
     }
   }
 
@@ -46,9 +46,9 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   Future<Either<DetailException, PokemonDetailEntity?>> getPokemonDetail(String id) async {
     try{
       final response = await client.get('${AppConsts.pokemonsUrl}$id');
-      return Right(PokemonDetailAdapter().fromMap(jsonDecode(response.data)['results'][0]));
+      return Right(PokemonDetailAdapter().fromMap(response.data));
     } catch(_){
-      return Left(DetailException());
+      return Left(DetailException('ocorreu um erro ao trazer dados do servidor'));
     }
   }
 }

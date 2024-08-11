@@ -23,7 +23,7 @@ main() {
 
   test('Deve retornar uma exception em caso de erro', () async {
     when(() => repository.get('', ''))
-        .thenAnswer((_) async => Left(GetException()));
+        .thenAnswer((_) async => Left(GetException('')));
     final result = await usecases.get('', '');
     expect(result.isLeft(), true);
     expect(result.fold(id, id), isA<GetException>());
@@ -39,7 +39,7 @@ main() {
 
   test('Deve retornar uma exception em caso de erro ao pesquisar', () async {
     when(() => repository.getBySearch(''))
-        .thenAnswer((_) async => Left(SearchException()));
+        .thenAnswer((_) async => Left(SearchException('')));
     final result = await usecases.getBySearch('');
     expect(result.isLeft(), true);
     expect(result.fold(id, id), isA<SearchException>());
@@ -55,7 +55,7 @@ main() {
 
   test('Deve retornar uma exception em caso de erro ao retornar os detalhes de um pokemon', () async {
     when(() => repository.getPokemonDetail(''))
-        .thenAnswer((_) async => Left(DetailException()));
+        .thenAnswer((_) async => Left(DetailException('')));
     final result = await usecases.getPokemonDetail('');
     expect(result.isLeft(), true);
     expect(result.fold(id, id), isA<DetailException>());

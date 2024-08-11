@@ -1,5 +1,7 @@
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 
+import '../../configs/app_consts.dart';
+
 class PokemonAdapter {
 
   static final PokemonAdapter _singleton = PokemonAdapter._internal();
@@ -13,10 +15,12 @@ class PokemonAdapter {
    List<PokemonEntity> fromMapList(dynamic data) {
     List<PokemonEntity> list = [];
     for (dynamic entity in data['results']) {
+     String url = entity['url'];
       list.add(
         PokemonEntity(
           name: entity['name'],
           url: entity['url'],
+          image: '${AppConsts.pokemonImagesUrl}${url.substring(34, 35)}.png',
         ),
       );
     }
