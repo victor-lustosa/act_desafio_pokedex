@@ -1,6 +1,5 @@
 
 import 'dart:io';
-import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 

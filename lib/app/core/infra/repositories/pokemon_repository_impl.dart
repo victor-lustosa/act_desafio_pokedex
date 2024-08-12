@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
 import 'package:act_desafio_pokedex/app/core/domain/repositories/repository.dart';

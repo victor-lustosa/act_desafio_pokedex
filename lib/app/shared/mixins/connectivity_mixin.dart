@@ -11,7 +11,7 @@ mixin ConnectivityMixin{
       } else {
         return false;
       }
-    } on PlatformException catch (e, st) {
+    } on PlatformException catch (_) {
       throw Exception();
     }
   }

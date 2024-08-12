@@ -15,6 +15,13 @@ mixin _$HomeStoreImpl on HomeStore, Store {
   int get nextPage => (_$nextPageComputed ??=
           Computed<int>(() => super.nextPage, name: 'HomeStore.nextPage'))
       .value;
+  Computed<int>? _$previousPageComputed;
+
+  @override
+  int get previousPage =>
+      (_$previousPageComputed ??= Computed<int>(() => super.previousPage,
+              name: 'HomeStore.previousPage'))
+          .value;
 
   late final _$searchControllerAtom =
       Atom(name: 'HomeStore.searchController', context: context);
@@ -64,6 +71,23 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     });
   }
 
+  late final _$isButtonScrollVisibleAtom =
+      Atom(name: 'HomeStore.isButtonScrollVisible', context: context);
+
+  @override
+  bool get isButtonScrollVisible {
+    _$isButtonScrollVisibleAtom.reportRead();
+    return super.isButtonScrollVisible;
+  }
+
+  @override
+  set isButtonScrollVisible(bool value) {
+    _$isButtonScrollVisibleAtom.reportWrite(value, super.isButtonScrollVisible,
+        () {
+      super.isButtonScrollVisible = value;
+    });
+  }
+
   late final _$currentPageAtom =
       Atom(name: 'HomeStore.currentPage', context: context);
 
@@ -77,6 +101,22 @@ mixin _$HomeStoreImpl on HomeStore, Store {
   set currentPage(int value) {
     _$currentPageAtom.reportWrite(value, super.currentPage, () {
       super.currentPage = value;
+    });
+  }
+
+  late final _$paginationNumberAtom =
+      Atom(name: 'HomeStore.paginationNumber', context: context);
+
+  @override
+  int get paginationNumber {
+    _$paginationNumberAtom.reportRead();
+    return super.paginationNumber;
+  }
+
+  @override
+  set paginationNumber(int value) {
+    _$paginationNumberAtom.reportWrite(value, super.paginationNumber, () {
+      super.paginationNumber = value;
     });
   }
 
@@ -124,10 +164,13 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     return '''
 searchController: ${searchController},
 scrollController: ${scrollController},
+isButtonScrollVisible: ${isButtonScrollVisible},
 currentPage: ${currentPage},
+paginationNumber: ${paginationNumber},
 offset: ${offset},
 state: ${state},
-nextPage: ${nextPage}
+nextPage: ${nextPage},
+previousPage: ${previousPage}
     ''';
   }
 }

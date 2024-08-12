@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../core/di/dependencies_injection.dart';
+import '../../design_system/components/buttons/floating_button_widget.dart';
 import '../../design_system/components/loadings/loadings_widget.dart';
 import '../../design_system/configs/app_fonts.dart';
 import '../stores/home_store.dart';
@@ -19,7 +20,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late final HomeStore store;
-
+  List<PokemonEntity> pokemonsList = [];
   @override
   void initState() {
     super.initState();
@@ -51,7 +52,7 @@ class _HomeViewState extends State<HomeView> {
           child: Observer(
             builder: (_) {
               if (store.state is DataFetchedState) {
-                List<PokemonEntity> pokemonsList = (store.state as DataFetchedState).entities;
+                pokemonsList = (store.state as DataFetchedState).entities;
                 if (pokemonsList.isEmpty) {
                   return defaultMessage('Não foi encontrado nenhum pockemon com esse nome.',Colors.cyan);
                 }
@@ -66,6 +67,8 @@ class _HomeViewState extends State<HomeView> {
                             left: 15, right: 15, bottom: 20),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
+                        controller: store.scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: pokemonsList.length,
                         itemBuilder: (context, index) {
                           return InkWell(
@@ -123,6 +126,23 @@ class _HomeViewState extends State<HomeView> {
               }
             },
           ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedSlide(
+              duration: const Duration(microseconds: 1000),
+              offset: store.isButtonScrollVisible ? Offset.zero : const Offset(0, 2),
+              child: FloatingButtonWidget(
+                icon: Icons.arrow_downward_rounded,
+                backgroundColor: Colors.cyan,
+                iconColor: Colors.white,
+                size: 33,
+                action: store.callNextPage,
+              ),
+            ),
+          ],
         ),
       ),
     );
