@@ -88,10 +88,9 @@ abstract class HomeStore with Store {
     });
     if(modalResult != null) fetchData(nextPage: nextPage.toString(), offsetParam: offset.toString());
   }
-// Method to call Kotlin code
-  Future<void> showKotlinDialog(PokemonEntity entity) async {
+
+  Future<void> showDialog(PokemonEntity entity) async {
     state = LoadingState();
- ;
     try {
       final result = await _useCases.getPokemonDetail(entity.name);
       result.fold(

@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                         itemCount: pokemonsList.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap:() => Platform.isIOS ? null : store.showKotlinDialog(pokemonsList[index]),
+                            onTap:() => store.showDialog(pokemonsList[index]),
                             child: Card(
                               elevation: 2,
                               color: Colors.white,
