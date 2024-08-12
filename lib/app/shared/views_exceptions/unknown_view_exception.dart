@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../design_system/configs/app_colors.dart';
 import '../../design_system/configs/app_fonts.dart';
 
-class UnknownRouteView extends StatefulWidget {
-  const UnknownRouteView({super.key});
+class UnknownViewException extends StatefulWidget {
+  const UnknownViewException({super.key});
 
   @override
-  State<UnknownRouteView> createState() => _UnknownRouteViewState();
+  State<UnknownViewException> createState() => _UnknownViewExceptionState();
 }
 
-class _UnknownRouteViewState extends State<UnknownRouteView> {
+class _UnknownViewExceptionState extends State<UnknownViewException> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(

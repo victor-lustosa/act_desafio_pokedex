@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:act_desafio_pokedex/app/design_system/components/app_bar/app_bar_widget.dart';
 import 'package:act_desafio_pokedex/app/shared/states/generic_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../core/di/dependencies_injection.dart';
@@ -21,6 +24,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late final HomeStore store;
   List<PokemonEntity> pokemonsList = [];
+
   @override
   void initState() {
     super.initState();
@@ -72,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                         itemCount: pokemonsList.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () {},
+                            onTap:() => Platform.isIOS ? null : store.showKotlinDialog(pokemonsList[index]),
                             child: Card(
                               elevation: 2,
                               color: Colors.white,
@@ -128,6 +132,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        resizeToAvoidBottomInset: false,
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

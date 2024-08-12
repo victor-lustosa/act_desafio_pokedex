@@ -32,12 +32,12 @@ unknownRoute() {
   if (Platform.isIOS) {
     return CupertinoPageRoute(
       builder: (_) => const CupertinoPageScaffold(
-        child: UnknownRouteView(),
+        child: UnknownViewException(),
       ),
     );
   } else {
     return MaterialPageRoute(
-      builder: (_) => const UnknownRouteView(),
+      builder: (_) => const UnknownViewException(),
     );
   }
 }
