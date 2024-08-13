@@ -68,7 +68,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           InkWell(
             onTap: widget.action,
             child: IconButtonWidget(
-              size: 48,
+              size: 50,
               sizeIcon: 24,
               decoration: BoxDecoration(
                 border: Border.all(
@@ -77,7 +77,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(20))
             ),
-              color: Colors.black38,
+              color: Colors.cyan,
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               iOSIcon: CupertinoIcons.search,
