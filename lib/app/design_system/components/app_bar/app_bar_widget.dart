@@ -1,5 +1,5 @@
 import 'package:act_desafio_pokedex/app/design_system/configs/app_fonts.dart';
-import 'package:flutter/Material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../ui/stores/home_store.dart';
 import '../search_bar/search_bar_widget.dart';
