@@ -4,6 +4,7 @@ import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart
 import 'package:act_desafio_pokedex/app/design_system/components/app_bar/app_bar_widget.dart';
 import 'package:act_desafio_pokedex/app/shared/states/generic_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../core/di/dependencies_injection.dart';
@@ -46,7 +47,10 @@ class _HomeViewState extends State<HomeView> {
     return SafeArea(
       child: GestureDetector(
         onTap: (){
-          FocusManager.instance.primaryFocus?.unfocus();
+          if(WidgetsBinding.instance.window.viewInsets.bottom > 0.0)
+          {
+            SystemChannels.textInput.invokeMethod('TextInput.hide');
+          }
         },
         child: Scaffold(
           appBar: AppBarWidget(
