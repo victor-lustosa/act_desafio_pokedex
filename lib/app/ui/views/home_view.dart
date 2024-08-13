@@ -1,11 +1,9 @@
-import 'dart:io';
 
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:act_desafio_pokedex/app/design_system/components/app_bar/app_bar_widget.dart';
 import 'package:act_desafio_pokedex/app/shared/states/generic_states.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../core/di/dependencies_injection.dart';
@@ -62,66 +60,60 @@ class _HomeViewState extends State<HomeView> {
                       'Não foi encontrado nenhum pockemon com esse nome.',
                       Colors.cyan);
                 }
-                final curvedValue = Curves.easeInOutBack.transform(1) - 1;
                 return Column(
                   children: [
                     Expanded(
-                      child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 750),
-              curve: Curves.fastOutSlowIn,
-              transform: Matrix4.translationValues(0,curvedValue * 20, 0),
-                        child: ListView.separated(
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const SizedBox(height: 16);
-                          },
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, bottom: 20),
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          controller: store.scrollController,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: pokemonsList.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () => store.showDialog(pokemonsList[index]),
-                              child: Card(
-                                elevation: 2,
-                                color: Colors.white,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 16, top: 10),
-                                      child: Text(
-                                        pokemonsList[index].name,
-                                        style: AppFonts.defaultFont(
-                                          color: Colors.black87,
-                                          fontWeight: FontWeight.w500,
+                      child: ListView.separated(
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(height: 16);
+                        },
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 20),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        controller: store.scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: pokemonsList.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () => store.showDialog(pokemonsList[index]),
+                            child: Card(
+                              elevation: 2,
+                              color: Colors.white,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 16, top: 10),
+                                    child: Text(
+                                      pokemonsList[index].name,
+                                      style: AppFonts.defaultFont(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(18),
+                                      ),
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(
+                                          pokemonsList[index].image,
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      height: 200,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(18),
-                                        ),
-                                        image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(
-                                            pokemonsList[index].image,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
