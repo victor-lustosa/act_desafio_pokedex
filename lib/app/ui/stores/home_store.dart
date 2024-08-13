@@ -110,7 +110,7 @@ abstract class HomeStore with Store {
       'weight': entity.weight.toString(),
       'height': entity.height.toString(),
     });
-    if (modalResult != null) fetchData(nextPage: nextPage.toString(), offsetParam: offset.toString());
+    if (modalResult != null) fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
   }
 
   @action
