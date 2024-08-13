@@ -44,6 +44,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               fieldDecoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
+                  width: 1.5,
                   color: Colors.cyan,
                 ),
                 borderRadius: BorderRadius.circular(11),
@@ -58,6 +59,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                 ),
                 contentPadding: const EdgeInsets.only(
                   left: 16,
+                  bottom: 3
                 ),
                 hintText: 'Digite o nome de um pokemon',
               ), colorStyle: AppColors.hintInputForm,
@@ -67,8 +69,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             onTap: widget.action,
             child: IconButtonWidget(
               size: 48,
-              sizeIcon: 24,decoration: BoxDecoration(
+              sizeIcon: 24,
+              decoration: BoxDecoration(
                 border: Border.all(
+                  width: 1.5,
                   color: Colors.cyan,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(20))
