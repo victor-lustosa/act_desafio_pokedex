@@ -14,26 +14,26 @@ class MainActivity : FlutterActivity() {
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             if (call.method == "showDialog") {
-                val pessoaMap = call.arguments as? Map<String, Any>
+                val pokemonDetail = call.arguments as? Map<String, Any>
 
-                if (pessoaMap != null) {
+                if (pokemonDetail != null) {
                     val pokemonDetailEntity = try {
                         PokemonDetailEntity(
-                            name = pessoaMap["name"] as? String ?: "",
-                            image = pessoaMap["image"] as? String ?: "",
-                            id = pessoaMap["id"] as? String ?: "",
-                            weight = pessoaMap["weight"] as? String ?: "",
-                            height = pessoaMap["height"] as? String ?: ""
+                            name = pokemonDetail["name"] as? String ?: "",
+                            image = pokemonDetail["image"] as? String ?: "",
+                            id = pokemonDetail["id"] as? String ?: "",
+                            weight = pokemonDetail["weight"] as? String ?: "",
+                            height = pokemonDetail["height"] as? String ?: ""
                         )
                     } catch (e: Exception) {
-                        result.error("INVALID_ARGUMENTS", "Erro ao processar dados da pessoa", e.message)
+                        result.error("INVALID_ARGUMENTS", "Erro ao processar dados do pokemon", e.message)
                         return@setMethodCallHandler
                     }
 
                     showDialog(pokemonDetailEntity, result)
 
                 } else {
-                    result.error("INVALID_ARGUMENTS", "Arguments are null or not a map", null)
+                    result.error("INVALID_ARGUMENTS", "Erro ao processar dados do pokemon", null)
                 }
             } else {
                 result.notImplemented()
@@ -44,7 +44,7 @@ class MainActivity : FlutterActivity() {
     private fun showDialog(pokemonDetailEntity: PokemonDetailEntity, result: MethodChannel.Result) {
         runOnUiThread {
             val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Theme_AppCompat))
-            builder.setTitle("Pessoa Info")
+            builder.setTitle("Pokemon Info")
             builder.setMessage(
                 "Id: ${pokemonDetailEntity.id}\n" +
                         "Nome: ${pokemonDetailEntity.name}\n" +
