@@ -22,7 +22,7 @@ import Flutter
                    let height = args["height"] as? String {
 
                     let pokemonDetail = PokemonDetailEntity(name: name, image: image, id: id, weight: weight, height: height)
-                    self?.showDialog(personDetail: pokemonDetail, flutterResult: result)
+                    self?.showDialog(pokemonDetail: pokemonDetail, flutterResult: result)
                 } else {
                     result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid or missing arguments", details: nil))
                 }
