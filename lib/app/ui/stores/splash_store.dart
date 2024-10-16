@@ -1,10 +1,10 @@
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
-import 'package:act_desafio_pokedex/app/shared/states/generic_states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/configs/app_routes.dart';
 import '../../shared/mixins/connectivity_mixin.dart';
+import '../../shared/states/generic_states.dart';
 
 part 'splash_store.g.dart';
 

@@ -1,5 +1,6 @@
-import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
 import 'package:dartz/dartz.dart';
+
+import '../exceptions/exceptions.dart';
 
 class ResponseDTO{
   ResponseDTO({required this.statusCode, required this.data});

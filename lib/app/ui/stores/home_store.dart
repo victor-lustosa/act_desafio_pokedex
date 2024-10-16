@@ -1,11 +1,12 @@
-import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_detail_entity.dart';
-import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
-import 'package:act_desafio_pokedex/app/core/domain/exceptions/exceptions.dart';
-import 'package:act_desafio_pokedex/app/core/infra/use_cases/pokemon_use_case_impl.dart';
-import 'package:act_desafio_pokedex/app/shared/states/generic_states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../core/domain/entities/pokemon_detail_entity.dart';
+import '../../core/domain/entities/pokemon_entity.dart';
+import '../../core/domain/exceptions/exceptions.dart';
+import '../../core/infra/use_cases/pokemon_use_case_impl.dart';
+import '../../shared/states/generic_states.dart';
 
 part 'home_store.g.dart';
 
@@ -27,58 +28,81 @@ abstract class HomeStore with Store {
   PokemonUseCase _useCases;
 
   @observable
-  bool isButtonScrollVisible = true;
+  bool isNextButtonVisible = true;
 
   @observable
-  int currentPage = 5;
+  bool isPreviousButtonVisible = false;
 
   @observable
-  int paginationNumber = 5;
+  int pageNumbers = 5;
 
   @observable
   int offset = 0;
 
-  @computed
-  int get nextPage => currentPage + paginationNumber;
+  @observable
+  int isSearched = 0;
 
   @computed
-  int get previousPage => currentPage - paginationNumber;
+  int get nextPage => offset + 5;
+
+  @computed
+  int get previousPage => offset - 5;
+
   @observable
   GenericState state = InitialState();
 
+  get previousAction => {
+        if (offset == 0){
+          isPreviousButtonVisible = false
+        }
+        else {
+          isPreviousButtonVisible = true
+        }
+      };
+
+  get initialAction => {
+    isPreviousButtonVisible = false,
+    isNextButtonVisible = false
+  };
+
+  @action
   onAction() async {
     if (searchController.text.isNotEmpty) {
       state = LoadingState();
-      final result =
-          await _useCases.getBySearch(searchController.text.toLowerCase());
+      initialAction;
+      offset = 0;
+      final result = await _useCases.getBySearch(searchController.text.toLowerCase());
       result.fold(
           (SearchException e) => {
                 state = ExceptionState(message: e.message),
-                isButtonScrollVisible = false,
+                initialAction
               },
           (entities) => {
                 if (entities != null)
                   {
-                    state = DataFetchedState<List<PokemonEntity>>(
-                        entities: entities),
-                    isButtonScrollVisible = true
+                    state = DataFetchedState<List<PokemonEntity>>(entities: entities),
+                    previousAction,
+                    if ((entities as List).isEmpty) isNextButtonVisible = false
                   }
                 else
                   {
-                    state = ExceptionState(
-                        message: 'Ocorreu um erro ao realizar a pesquisa.'),
-                    isButtonScrollVisible = false,
+                    state = ExceptionState(message: 'Ocorreu um erro ao realizar a pesquisa.'),
+                    initialAction
                   }
               });
     }
   }
 
+  @action
   onChange(String value) async {
     if (value.isEmpty) {
+      isNextButtonVisible = true;
       fetchData(nextPage: '0', offsetParam: '0');
     }
   }
-  modalOpened(PokemonDetailEntity entity) async{
+
+  @action
+  modalOpened(PokemonDetailEntity entity) async {
     var modalResult = await platform.invokeMethod('showDialog', {
       'name': entity.name,
       'image': entity.image,
@@ -86,65 +110,64 @@ abstract class HomeStore with Store {
       'weight': entity.weight.toString(),
       'height': entity.height.toString(),
     });
-    if(modalResult != null) fetchData(nextPage: nextPage.toString(), offsetParam: offset.toString());
+    if (modalResult != null) fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
   }
 
+  @action
   Future<void> showDialog(PokemonEntity entity) async {
     state = LoadingState();
+    initialAction;
     try {
       final result = await _useCases.getPokemonDetail(entity.name);
       result.fold(
           (DetailException e) => {
                 state = ExceptionState(message: e.message),
-                isButtonScrollVisible = false,
+                initialAction
               },
           (entity) async => {
-                if (entity != null){
-                  await modalOpened(entity)
+                if (entity != null) {
+                    await modalOpened(entity),
+                    previousAction,
+                    isNextButtonVisible = true,
+                    searchController.text = ''
                   } else {
-                    state = ExceptionState(
-                        message: 'Ocorreu um erro ao trazer os dados.'),
-                    isButtonScrollVisible = false,
+                    state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.'),
+                    initialAction
                   }
               });
     } on PlatformException catch (_) {}
   }
 
-  callNextPage() {
-    currentPage = nextPage;
+  callPreviousPage() {
     searchController.text = '';
-    fetchData(nextPage: nextPage.toString(), offsetParam: offset.toString());
-    Future.delayed(const Duration(milliseconds: 500), () {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(seconds: 1),
-        curve: Curves.fastOutSlowIn,
-      );
-    });
+    if (previousPage >= 0) offset = previousPage;
+    fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
+  }
+
+  callNextPage() {
+    searchController.text = '';
+    if (nextPage >= 0) offset = nextPage;
+    fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
   }
 
   @action
   Future<void> fetchData({String? nextPage, String? offsetParam}) async {
     state = LoadingState();
     final result = await _useCases.get(
-        nextPage ?? currentPage.toString(), offsetParam ?? offset.toString());
+        nextPage ?? pageNumbers.toString(), offsetParam ?? offset.toString());
     result.fold(
         (GetException e) => {
               state = ExceptionState(message: e.message),
-              isButtonScrollVisible = false,
+              initialAction
             },
         (entities) => {
-              if (entities != null)
-                {
-                  state =
-                      DataFetchedState<List<PokemonEntity>>(entities: entities),
-                  isButtonScrollVisible = true,
-                }
-              else
-                {
-                  state = ExceptionState(
-                      message: 'Ocorreu um erro ao trazer os dados.'),
-                  isButtonScrollVisible = false,
+              if (entities != null) {
+                  state = DataFetchedState<List<PokemonEntity>>(entities: entities),
+                  previousAction,
+                  isNextButtonVisible = true
+                } else {
+                  state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.'),
+                  initialAction
                 }
             });
   }

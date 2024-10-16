@@ -71,52 +71,52 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     });
   }
 
-  late final _$isButtonScrollVisibleAtom =
-      Atom(name: 'HomeStore.isButtonScrollVisible', context: context);
+  late final _$isNextButtonVisibleAtom =
+      Atom(name: 'HomeStore.isNextButtonVisible', context: context);
 
   @override
-  bool get isButtonScrollVisible {
-    _$isButtonScrollVisibleAtom.reportRead();
-    return super.isButtonScrollVisible;
+  bool get isNextButtonVisible {
+    _$isNextButtonVisibleAtom.reportRead();
+    return super.isNextButtonVisible;
   }
 
   @override
-  set isButtonScrollVisible(bool value) {
-    _$isButtonScrollVisibleAtom.reportWrite(value, super.isButtonScrollVisible,
-        () {
-      super.isButtonScrollVisible = value;
+  set isNextButtonVisible(bool value) {
+    _$isNextButtonVisibleAtom.reportWrite(value, super.isNextButtonVisible, () {
+      super.isNextButtonVisible = value;
     });
   }
 
-  late final _$currentPageAtom =
-      Atom(name: 'HomeStore.currentPage', context: context);
+  late final _$isPreviousButtonVisibleAtom =
+      Atom(name: 'HomeStore.isPreviousButtonVisible', context: context);
 
   @override
-  int get currentPage {
-    _$currentPageAtom.reportRead();
-    return super.currentPage;
+  bool get isPreviousButtonVisible {
+    _$isPreviousButtonVisibleAtom.reportRead();
+    return super.isPreviousButtonVisible;
   }
 
   @override
-  set currentPage(int value) {
-    _$currentPageAtom.reportWrite(value, super.currentPage, () {
-      super.currentPage = value;
+  set isPreviousButtonVisible(bool value) {
+    _$isPreviousButtonVisibleAtom
+        .reportWrite(value, super.isPreviousButtonVisible, () {
+      super.isPreviousButtonVisible = value;
     });
   }
 
-  late final _$paginationNumberAtom =
-      Atom(name: 'HomeStore.paginationNumber', context: context);
+  late final _$pageNumbersAtom =
+      Atom(name: 'HomeStore.pageNumbers', context: context);
 
   @override
-  int get paginationNumber {
-    _$paginationNumberAtom.reportRead();
-    return super.paginationNumber;
+  int get pageNumbers {
+    _$pageNumbersAtom.reportRead();
+    return super.pageNumbers;
   }
 
   @override
-  set paginationNumber(int value) {
-    _$paginationNumberAtom.reportWrite(value, super.paginationNumber, () {
-      super.paginationNumber = value;
+  set pageNumbers(int value) {
+    _$pageNumbersAtom.reportWrite(value, super.pageNumbers, () {
+      super.pageNumbers = value;
     });
   }
 
@@ -135,6 +135,22 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     });
   }
 
+  late final _$isSearchedAtom =
+      Atom(name: 'HomeStore.isSearched', context: context);
+
+  @override
+  int get isSearched {
+    _$isSearchedAtom.reportRead();
+    return super.isSearched;
+  }
+
+  @override
+  set isSearched(int value) {
+    _$isSearchedAtom.reportWrite(value, super.isSearched, () {
+      super.isSearched = value;
+    });
+  }
+
   late final _$stateAtom = Atom(name: 'HomeStore.state', context: context);
 
   @override
@@ -148,6 +164,38 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     _$stateAtom.reportWrite(value, super.state, () {
       super.state = value;
     });
+  }
+
+  late final _$onActionAsyncAction =
+      AsyncAction('HomeStore.onAction', context: context);
+
+  @override
+  Future onAction() {
+    return _$onActionAsyncAction.run(() => super.onAction());
+  }
+
+  late final _$onChangeAsyncAction =
+      AsyncAction('HomeStore.onChange', context: context);
+
+  @override
+  Future onChange(String value) {
+    return _$onChangeAsyncAction.run(() => super.onChange(value));
+  }
+
+  late final _$modalOpenedAsyncAction =
+      AsyncAction('HomeStore.modalOpened', context: context);
+
+  @override
+  Future modalOpened(PokemonDetailEntity entity) {
+    return _$modalOpenedAsyncAction.run(() => super.modalOpened(entity));
+  }
+
+  late final _$showDialogAsyncAction =
+      AsyncAction('HomeStore.showDialog', context: context);
+
+  @override
+  Future<void> showDialog(PokemonEntity entity) {
+    return _$showDialogAsyncAction.run(() => super.showDialog(entity));
   }
 
   late final _$fetchDataAsyncAction =
@@ -164,10 +212,11 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     return '''
 searchController: ${searchController},
 scrollController: ${scrollController},
-isButtonScrollVisible: ${isButtonScrollVisible},
-currentPage: ${currentPage},
-paginationNumber: ${paginationNumber},
+isNextButtonVisible: ${isNextButtonVisible},
+isPreviousButtonVisible: ${isPreviousButtonVisible},
+pageNumbers: ${pageNumbers},
 offset: ${offset},
+isSearched: ${isSearched},
 state: ${state},
 nextPage: ${nextPage},
 previousPage: ${previousPage}

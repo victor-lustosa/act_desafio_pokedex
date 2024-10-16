@@ -1,6 +1,6 @@
-import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 
 import '../../configs/app_consts.dart';
+import '../../domain/entities/pokemon_entity.dart';
 
 class PokemonAdapter {
 

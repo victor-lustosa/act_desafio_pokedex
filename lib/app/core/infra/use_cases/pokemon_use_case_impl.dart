@@ -1,7 +1,7 @@
-import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../domain/entities/pokemon_detail_entity.dart';
+import '../../domain/entities/pokemon_entity.dart';
 import '../../domain/exceptions/exceptions.dart';
 import '../../domain/use_cases/use_cases.dart';
 import '../repositories/pokemon_repository_impl.dart';

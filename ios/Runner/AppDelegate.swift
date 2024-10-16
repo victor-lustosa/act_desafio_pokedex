@@ -21,8 +21,8 @@ import Flutter
                    let weight = args["weight"] as? String,
                    let height = args["height"] as? String {
 
-                    let personDetail = PersonDetailEntity(name: name, image: image, id: id, weight: weight, height: height)
-                    self?.showDialog(personDetail: personDetail, flutterResult: result)
+                    let pokemonDetail = PokemonDetailEntity(name: name, image: image, id: id, weight: weight, height: height)
+                    self?.showDialog(pokemonDetail: pokemonDetail, flutterResult: result)
                 } else {
                     result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid or missing arguments", details: nil))
                 }
@@ -33,8 +33,8 @@ import Flutter
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
-    private func showDialog(personDetail: PersonDetailEntity, flutterResult: @escaping FlutterResult) {
-        let alert = UIAlertController(title: "Pessoa Info", message: "Id: \(personDetail.id)\nNome: \(personDetail.name)\nImagem: \(personDetail.image)\nPeso: \(personDetail.weight)\nAltura: \(personDetail.height) cm", preferredStyle: .alert)
+    private func showDialog(pokemonDetail: PokemonDetailEntity, flutterResult: @escaping FlutterResult) {
+        let alert = UIAlertController(title: "Pokemon Info", message: "Id: \(pokemonDetail.id)\nNome: \(pokemonDetail.name)\nImagem: \(pokemonDetail.image)\nPeso: \(pokemonDetail.weight)\nAltura: \(pokemonDetail.height) cm", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
             flutterResult("")
@@ -47,7 +47,7 @@ import Flutter
         }
     }
 
-    struct PersonDetailEntity {
+    struct PokemonDetailEntity {
         let name: String
         let image: String
         let id: String

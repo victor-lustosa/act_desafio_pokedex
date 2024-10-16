@@ -9,13 +9,14 @@ class FloatingButtonWidget extends StatelessWidget {
         this.icon,
         required this.backgroundColor,
         this.size,
-        this.pngIcon,});
+        this.pngIcon, this.heroTag,});
 
   final VoidCallback action;
   final Color? iconColor;
   final Color backgroundColor;
   final IconData? icon;
   final String? pngIcon;
+  final String? heroTag;
   final double? size;
 
   @override
@@ -24,6 +25,7 @@ class FloatingButtonWidget extends StatelessWidget {
       height: 56,
       width: 56,
       child: FloatingActionButton(
+        heroTag: heroTag,
         shape: const CircleBorder(),
         elevation: 3,
         highlightElevation: 1.8,
