@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   //primary
   static const Color darkGreen = Color(0xFF005B40);
+  static const Color darkBlue = Color(0xFF121CA8);
+  static const Color lightBlue = Color.fromRGBO(18, 28, 168, 0.2);
   static const Color loginLineDecoration = Color(0xFF338777);
 
   //neutral
@@ -23,7 +25,9 @@ class AppColors {
   static const Color fullBlack = Color(0xFF000000);
 
   //secondary
-  static const Color secondaryGreen = Color(0xFF00A876);
+  static const Color secondaryBlue = Color(0xFF616AEA);
+  static const Color primaryColorTheme = Color(0xFFFAFAFA);
+  static const Color messageBlue = Color.fromRGBO(18, 28, 168, .8);
   static const Color primaryGreen = Color(0xFF14C5A0);
   static const Color searchBar = Color(0xFFEFEFEF);
   static const Color chorusColor = Color(0xFFEDF7F4);

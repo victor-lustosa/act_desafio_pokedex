@@ -2,9 +2,9 @@
 
 Esse sistema foi desenvolvido com as seguintes versões:
 
-- [Flutter] Flutter 3.24.0
+- [Flutter] Flutter 3.24.3
 - [Android] SDK Android 21 para cima
-- [Java JDK] Versão 11.0.24
+- [Java JDK] Versão 17.0.10
 - [Swift] Versão 5.10
 
 ## O processo exige a explicação dos pacotes utilizados no desenvolvimentos. Segue abaixo a lista de packages e a finalidade de cada um deles:
@@ -47,6 +47,11 @@ se quiser, pode rodar direto, através do comando:
 
 ```bash
 flutter run lib/main.dart
+```
+pra rodar o codigo do mobx:
+
+```bash
+flutter pub run build_runner watch --delete-conflicting-outputs
 ```
 ## Arquitetura do Sistema, baseada em Clean Architecture
 

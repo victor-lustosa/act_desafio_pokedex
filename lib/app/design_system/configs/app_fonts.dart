@@ -13,7 +13,7 @@ class AppFonts {
   }) {
     return GoogleFonts.inter(
         height: height,
-        color: color ?? Colors.cyan,
+        color: color ?? AppColors.secondaryBlue,
         fontWeight: fontWeight ?? FontWeight.w400,
         fontSize: fontSize ?? 18,
         decorationColor: decorationColor,

@@ -22,8 +22,8 @@ class FloatingButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
-      width: 56,
+      height: 52,
+      width: 52,
       child: FloatingActionButton(
         heroTag: heroTag,
         shape: const CircleBorder(),

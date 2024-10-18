@@ -166,12 +166,20 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     });
   }
 
-  late final _$onActionAsyncAction =
-      AsyncAction('HomeStore.onAction', context: context);
+  late final _$onSearchActionAsyncAction =
+      AsyncAction('HomeStore.onSearchAction', context: context);
 
   @override
-  Future onAction() {
-    return _$onActionAsyncAction.run(() => super.onAction());
+  Future onSearchAction() {
+    return _$onSearchActionAsyncAction.run(() => super.onSearchAction());
+  }
+
+  late final _$onCleanActionAsyncAction =
+      AsyncAction('HomeStore.onCleanAction', context: context);
+
+  @override
+  Future onCleanAction() {
+    return _$onCleanActionAsyncAction.run(() => super.onCleanAction());
   }
 
   late final _$onChangeAsyncAction =

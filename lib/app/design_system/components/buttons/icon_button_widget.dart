@@ -12,7 +12,7 @@ class IconButtonWidget extends StatelessWidget {
         this.splashColor,
         this.highlightColor,
         required this.iOSIcon,
-        required this.androidIcon, this.sizeIcon, this.decoration});
+        required this.androidIcon, this.sizeIcon, this.decoration, this.margin});
   final double? size;
   final double? sizeIcon;
   final IconData iOSIcon;
@@ -21,6 +21,7 @@ class IconButtonWidget extends StatelessWidget {
   final VoidCallback? action;
   final Decoration? decoration;
   final Color? splashColor;
+  final EdgeInsets? margin;
   final Color? highlightColor;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class IconButtonWidget extends StatelessWidget {
       decoration: decoration,
       height: size,
       width: size,
+      margin: margin,
       child: Platform.isIOS
           ? CupertinoButton(
         padding: EdgeInsets.zero,
@@ -39,6 +41,7 @@ class IconButtonWidget extends StatelessWidget {
         ),
       )
           : IconButton(
+        color: Colors.white,
         padding: EdgeInsets.zero,
         onPressed: action,
         splashColor: splashColor,

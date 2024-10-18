@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/domain/entities/pokemon_detail_entity.dart';
@@ -14,9 +13,6 @@ class HomeStoreImpl = HomeStore with _$HomeStoreImpl;
 
 abstract class HomeStore with Store {
   HomeStore({required PokemonUseCase useCases}) : _useCases = useCases;
-
-  static const platform =
-      MethodChannel('com.example.act_desafio_pokedex/channel');
 
   @observable
   TextEditingController searchController = TextEditingController();
@@ -66,7 +62,7 @@ abstract class HomeStore with Store {
   };
 
   @action
-  onAction() async {
+  onSearchAction() async {
     if (searchController.text.isNotEmpty) {
       state = LoadingState();
       initialAction;
@@ -78,18 +74,23 @@ abstract class HomeStore with Store {
                 initialAction
               },
           (entities) => {
-                if (entities != null)
-                  {
+                if (entities != null) {
                     state = DataFetchedState<List<PokemonEntity>>(entities: entities),
                     previousAction,
                     if ((entities as List).isEmpty) isNextButtonVisible = false
                   }
-                else
-                  {
+                else {
                     state = ExceptionState(message: 'Ocorreu um erro ao realizar a pesquisa.'),
                     initialAction
                   }
               });
+    }
+  }
+  @action
+  onCleanAction() async {
+    if (searchController.text.isNotEmpty) {
+      searchController.text = "";
+      fetchData();
     }
   }
 
@@ -103,14 +104,7 @@ abstract class HomeStore with Store {
 
   @action
   modalOpened(PokemonDetailEntity entity) async {
-    var modalResult = await platform.invokeMethod('showDialog', {
-      'name': entity.name,
-      'image': entity.image,
-      'id': entity.id.toString(),
-      'weight': entity.weight.toString(),
-      'height': entity.height.toString(),
-    });
-    if (modalResult != null) fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
+
   }
 
   @action
@@ -135,7 +129,7 @@ abstract class HomeStore with Store {
                     initialAction
                   }
               });
-    } on PlatformException catch (_) {}
+    } on Exception catch (_) {}
   }
 
   callPreviousPage() {

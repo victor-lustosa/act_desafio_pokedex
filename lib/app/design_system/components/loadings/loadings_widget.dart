@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../configs/app_colors.dart';
+
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget(
       {super.key, this.androidRadius, this.color, this.size, this.iosRadius});
@@ -18,13 +20,13 @@ class LoadingWidget extends StatelessWidget {
       height: size,
       child: Platform.isIOS
           ? CupertinoActivityIndicator(
-        color: color ?? Colors.cyan,
+        color: color ?? AppColors.secondaryBlue,
         radius: iosRadius ?? 17,
       )
           : CircularProgressIndicator(
         strokeWidth: androidRadius!,
         valueColor: AlwaysStoppedAnimation<Color>(
-          color ??  Colors.cyan,
+          color ??  AppColors.secondaryBlue,
         ),
       ),
     );
