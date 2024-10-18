@@ -10,7 +10,7 @@ import '../adapters/pokemon_adapter.dart';
 import '../adapters/pokemon_detail_adapter.dart';
 
 abstract class GetDetailRepository {
-  Future<Either<DetailException, PokemonDetailEntity?>> getPokemonDetail(String id);
+  Future<Either<DetailException, PokemonDetailsEntity?>> getPokemonDetail(String id);
 }
 
 abstract class PokemonRepository<R> extends Repository<R> implements GetDetailRepository{}
@@ -43,10 +43,10 @@ class PokemonRepositoryImpl implements PokemonRepository<List<PokemonEntity>>{
   }
 
   @override
-  Future<Either<DetailException, PokemonDetailEntity?>> getPokemonDetail(String id) async {
+  Future<Either<DetailException, PokemonDetailsEntity?>> getPokemonDetail(String id) async {
     try{
       final response = await client.get('${AppConsts.pokemonsUrl}$id');
-      if(response.statusCode != 200)  return Right(PokemonDetailEntity.empty());
+      if(response.statusCode != 200)  return Right(PokemonDetailsEntity.empty());
       return Right(PokemonDetailAdapter().fromMap(response.data));
     } catch(_){
       return Left(DetailException('ocorreu um erro ao trazer dados do servidor'));

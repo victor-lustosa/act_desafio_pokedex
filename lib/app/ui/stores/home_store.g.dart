@@ -190,21 +190,12 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     return _$onChangeAsyncAction.run(() => super.onChange(value));
   }
 
-  late final _$modalOpenedAsyncAction =
-      AsyncAction('HomeStore.modalOpened', context: context);
-
-  @override
-  Future modalOpened(PokemonDetailEntity entity) {
-    return _$modalOpenedAsyncAction.run(() => super.modalOpened(entity));
-  }
-
   late final _$showDetailsAsyncAction =
       AsyncAction('HomeStore.showDetails', context: context);
 
   @override
-  Future<void> showDetails(PokemonEntity entity, BuildContext context) {
-    return _$showDetailsAsyncAction
-        .run(() => super.showDetails(entity, context));
+  Future<void> showDetails(PokemonEntity entity) {
+    return _$showDetailsAsyncAction.run(() => super.showDetails(entity));
   }
 
   late final _$fetchDataAsyncAction =

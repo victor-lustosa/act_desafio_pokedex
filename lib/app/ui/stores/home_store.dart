@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/domain/entities/pokemon_detail_entity.dart';
 import '../../core/domain/entities/pokemon_entity.dart';
 import '../../core/domain/exceptions/exceptions.dart';
 import '../../core/infra/use_cases/pokemon_use_case_impl.dart';
@@ -50,86 +49,67 @@ abstract class HomeStore with Store {
   GenericState state = InitialState();
 
   get previousAction => {
-        if (offset == 0){
-          isPreviousButtonVisible = false
-        }
-        else {
-          isPreviousButtonVisible = true
-        }
+        if (offset == 0)
+          {isPreviousButtonVisible = false}
+        else
+          {isPreviousButtonVisible = true}
       };
 
-  get initialAction => {
-    isPreviousButtonVisible = false,
-    isNextButtonVisible = false
-  };
+  get initialAction =>
+      {isPreviousButtonVisible = false, isNextButtonVisible = false};
 
   @action
   onSearchAction() async {
     if (searchController.text.isNotEmpty) {
       state = LoadingState();
       initialAction;
-      final result = await _useCases.getBySearch(searchController.text.toLowerCase());
+      final result =
+          await _useCases.getBySearch(searchController.text.toLowerCase());
       result.fold(
-          (SearchException e) => {
-                state = ExceptionState(message: e.message),
-                initialAction
-              },
+          (SearchException e) =>
+              {state = ExceptionState(message: e.message), initialAction},
           (entities) => {
-                if (entities != null) {
+                if (entities != null)
+                  {
                     state = DataFetchedState<List<PokemonEntity>>(entities: entities),
                     previousAction,
                     if ((entities as List).isEmpty) initialAction
                   }
-                else {
+                else
+                  {
                     state = ExceptionState(message: 'Ocorreu um erro ao realizar a pesquisa.'),
                     initialAction
                   }
-              });
+              },
+      );
     }
   }
+
   @action
   onCleanAction() async {
-      if(searchController.text.isNotEmpty){
-        searchController.text = "";
-        fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
-      }
+    if (searchController.text.isNotEmpty) {
+      searchController.text = "";
+      fetchData(
+        nextPage: pageNumbers.toString(),
+        offsetParam: offset.toString(),
+      );
+    }
   }
 
   @action
   onChange(String value) async {
     if (value.isEmpty) {
       isNextButtonVisible = true;
-      fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
+      fetchData(
+        nextPage: pageNumbers.toString(),
+        offsetParam: offset.toString(),
+      );
     }
   }
 
   @action
-  modalOpened(PokemonDetailEntity entity) async {
-
-  }
-
-  @action
-  Future<void> showDetails(PokemonEntity entity,BuildContext context) async {
-    Modular.to.pushNamed(MainModule.pokemonDetailsRoute);
-    // try {
-    //   final result = await _useCases.getPokemonDetail(entity.name);
-    //   result.fold(
-    //       (DetailException e) => {
-    //             state = ExceptionState(message: e.message),
-    //             initialAction
-    //           },
-    //       (entity) async => {
-    //             if (entity != null) {
-    //                 await modalOpened(entity),
-    //                 previousAction,
-    //                 isNextButtonVisible = true,
-    //                 searchController.text = ''
-    //               } else {
-    //                 state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.'),
-    //                 initialAction
-    //               }
-    //           });
-    // } on Exception catch (_) {}
+  Future<void> showDetails(PokemonEntity entity) async {
+    Modular.to.pushNamed(MainModule.pokemonDetailsRoute,arguments: entity);
   }
 
   callPreviousPage() {
@@ -146,18 +126,21 @@ abstract class HomeStore with Store {
   Future<void> fetchData({String? nextPage, String? offsetParam}) async {
     state = LoadingState();
     final result = await _useCases.get(
-        nextPage ?? pageNumbers.toString(), offsetParam ?? offset.toString());
+        nextPage ?? pageNumbers.toString(),
+        offsetParam ?? offset.toString(),
+       );
     result.fold(
-        (GetException e) => {
-              state = ExceptionState(message: e.message),
-              initialAction
-            },
+        (GetException e) =>
+            {state = ExceptionState(message: e.message), initialAction},
         (entities) => {
-              if (entities != null) {
+              if (entities != null)
+                {
                   state = DataFetchedState<List<PokemonEntity>>(entities: entities),
                   previousAction,
                   isNextButtonVisible = true
-                } else {
+                }
+              else
+                {
                   state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.'),
                   initialAction
                 }

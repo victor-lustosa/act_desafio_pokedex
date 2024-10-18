@@ -1,11 +1,15 @@
-class PokemonDetailEntity {
+class PokemonDetailsEntity {
   final String name;
   final String image;
   final int id;
   final int weight;
   final int height;
+  final List<String> abilities;
+  final List<String> types;
 
-  PokemonDetailEntity({
+  PokemonDetailsEntity({
+    required this.abilities,
+    required this.types,
     required this.name,
     required this.image,
     required this.id,
@@ -13,7 +17,9 @@ class PokemonDetailEntity {
     required this.height,
   });
 
-  factory PokemonDetailEntity.empty() => PokemonDetailEntity(
+  factory PokemonDetailsEntity.empty() => PokemonDetailsEntity(
+        abilities: [],
+        types: [],
         name: '',
         image: '',
         id: 0,

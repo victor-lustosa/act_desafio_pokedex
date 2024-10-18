@@ -11,13 +11,35 @@ class PokemonDetailAdapter {
 
   PokemonDetailAdapter._internal();
 
-  PokemonDetailEntity fromMap(dynamic data) {
-    return PokemonDetailEntity(
+  PokemonDetailsEntity fromMap(dynamic data) {
+    return PokemonDetailsEntity(
+      abilities: AbilitiesAdapter.fromMapList(data['abilities']),
+      types: TypesAdapter.fromMapList(data['types']),
       name: data['name'],
       image: '${AppConsts.pokemonImagesUrl}${data['id']}.png',
       id: data['id'],
       weight: data['weight'],
       height: data['height'],
     );
+  }
+}
+
+class AbilitiesAdapter {
+  static List<String> fromMapList(dynamic json) {
+    List<String> abilitiesList = [];
+    for (dynamic ability in json) {
+      abilitiesList.add(ability['ability']['name']);
+    }
+    return abilitiesList;
+  }
+}
+
+class TypesAdapter {
+  static List<String> fromMapList(dynamic json) {
+    List<String> typesList = [];
+    for (dynamic type in json) {
+      typesList.add(type['type']['name']);
+    }
+    return typesList;
   }
 }

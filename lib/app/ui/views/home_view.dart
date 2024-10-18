@@ -1,4 +1,5 @@
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
+import 'package:act_desafio_pokedex/app/shared/views_exceptions/default_error_message_exception.dart';
 import 'package:act_desafio_pokedex/app/ui/components/search_not_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,21 +33,6 @@ class _HomeViewState extends State<HomeView> {
     store.fetchData();
   }
 
-  defaultMessage(String message, Color color) => Center(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 100),
-          width: 250,
-          child: Text(
-            message,
-            style: AppFonts.defaultFont(color: color),
-          ),
-        ),
-      );
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -88,7 +74,7 @@ class _HomeViewState extends State<HomeView> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              store.showDetails(pokemonsList[index],context);
+                              store.showDetails(pokemonsList[index]);
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -145,8 +131,10 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 );
               } else if (store.state is ExceptionState) {
-                return defaultMessage(
-                    (store.state as ExceptionState).message, Colors.red);
+                return DefaultErrorMessageException(
+                  message: (store.state as ExceptionState).message,
+                  color: Colors.red,
+                );
               } else {
                 return const Center(
                   child: LoadingWidget(
@@ -158,8 +146,7 @@ class _HomeViewState extends State<HomeView> {
             },
           ),
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         resizeToAvoidBottomInset: false,
         floatingActionButton: Observer(builder: (context) {
           return Container(

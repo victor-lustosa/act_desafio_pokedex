@@ -97,12 +97,12 @@ main() {
     );
 
     when(() => PokemonDetailAdapterMock().fromMap(any()))
-        .thenReturn(PokemonDetailEntity.empty());
+        .thenReturn(PokemonDetailsEntity.empty());
 
     final result = await repository.getPokemonDetail('');
 
     expect(result.isRight(), isTrue);
-    expect(result.getOrElse(() => null), isA<PokemonDetailEntity>());
+    expect(result.getOrElse(() => null), isA<PokemonDetailsEntity>());
     verify(() => client.get(any())).called(1);
   });
 
@@ -138,7 +138,7 @@ main() {
         );
 
         when(() => PokemonDetailAdapterMock().fromMap(any()))
-            .thenReturn(PokemonDetailEntity.empty());
+            .thenReturn(PokemonDetailsEntity.empty());
 
         final result = await repository.getPokemonDetail('');
         expect(result.isLeft(), isTrue);

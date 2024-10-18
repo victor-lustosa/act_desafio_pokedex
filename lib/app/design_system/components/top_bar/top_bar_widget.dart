@@ -19,7 +19,6 @@ class TopBarWidget extends StatelessWidget {
 
   final List<String> topBarLabels;
 
-
   @override
   Widget build(BuildContext context) {
     final List<TopBarElement> elements = [

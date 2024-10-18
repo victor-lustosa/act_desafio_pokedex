@@ -47,10 +47,10 @@ main() {
 
   test('Deve retornar os detalhes de um pokemon', () async {
     when(() => repository.getPokemonDetail(''))
-        .thenAnswer((_) async => Right(PokemonDetailEntity.empty()));
+        .thenAnswer((_) async => Right(PokemonDetailsEntity.empty()));
     final result = await usecases.getPokemonDetail('');
     expect(result, isA<Right>());
-    expect(result | null, isA<PokemonDetailEntity>());
+    expect(result | null, isA<PokemonDetailsEntity>());
   });
 
   test('Deve retornar uma exception em caso de erro ao retornar os detalhes de um pokemon', () async {

@@ -7,7 +7,7 @@ import '../../domain/use_cases/use_cases.dart';
 import '../repositories/pokemon_repository_impl.dart';
 
 abstract class GetDetailUseCase {
-  Future<Either<DetailException, PokemonDetailEntity?>> getPokemonDetail(String id);
+  Future<Either<DetailException, PokemonDetailsEntity?>> getPokemonDetail(String id);
 }
 
 abstract class PokemonUseCase<R> extends UseCases<R> implements GetDetailUseCase{}
@@ -37,7 +37,7 @@ class PokemonUseCasesImpl implements PokemonUseCase<List<PokemonEntity>?> {
   }
 
   @override
-  Future<Either<DetailException, PokemonDetailEntity?>> getPokemonDetail(String id) async {
+  Future<Either<DetailException, PokemonDetailsEntity?>> getPokemonDetail(String id) async {
     try {
       final result = await repository.getPokemonDetail(id);
       return result;
