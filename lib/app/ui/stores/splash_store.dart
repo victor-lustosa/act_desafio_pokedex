@@ -1,8 +1,9 @@
-import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/configs/app_routes.dart';
+import '../../../main.dart';
 import '../../shared/mixins/connectivity_mixin.dart';
 import '../../shared/states/generic_states.dart';
 
@@ -23,7 +24,7 @@ abstract class SplashStore with Store, ConnectivityMixin {
       if (response) {
         Future.delayed(const Duration(seconds: 2),(){
           state = DataFetchedState();
-          if(context.mounted) context.navigator.pushReplacementNamed(AppRoutes.homeRoute);
+          if(context.mounted) Modular.to.navigate(MainModule.homeRoute);
         });
       } else {
         state = ExceptionState(

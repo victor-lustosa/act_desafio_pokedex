@@ -66,7 +66,6 @@ abstract class HomeStore with Store {
     if (searchController.text.isNotEmpty) {
       state = LoadingState();
       initialAction;
-      offset = 0;
       final result = await _useCases.getBySearch(searchController.text.toLowerCase());
       result.fold(
           (SearchException e) => {
@@ -77,7 +76,7 @@ abstract class HomeStore with Store {
                 if (entities != null) {
                     state = DataFetchedState<List<PokemonEntity>>(entities: entities),
                     previousAction,
-                    if ((entities as List).isEmpty) isNextButtonVisible = false
+                    if ((entities as List).isEmpty) initialAction
                   }
                 else {
                     state = ExceptionState(message: 'Ocorreu um erro ao realizar a pesquisa.'),
@@ -88,17 +87,17 @@ abstract class HomeStore with Store {
   }
   @action
   onCleanAction() async {
-    if (searchController.text.isNotEmpty) {
-      searchController.text = "";
-      fetchData();
-    }
+      if(searchController.text.isNotEmpty){
+        searchController.text = "";
+        fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
+      }
   }
 
   @action
   onChange(String value) async {
     if (value.isEmpty) {
       isNextButtonVisible = true;
-      fetchData(nextPage: '0', offsetParam: '0');
+      fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
     }
   }
 
@@ -133,13 +132,11 @@ abstract class HomeStore with Store {
   }
 
   callPreviousPage() {
-    searchController.text = '';
     if (previousPage >= 0) offset = previousPage;
     fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
   }
 
   callNextPage() {
-    searchController.text = '';
     if (nextPage >= 0) offset = nextPage;
     fetchData(nextPage: pageNumbers.toString(), offsetParam: offset.toString());
   }

@@ -74,7 +74,10 @@ class _HomeViewState extends State<HomeView> {
                             return const SizedBox(height: 16);
                           },
                           padding: const EdgeInsets.only(
-                              left: 24, right: 24, bottom: 20),
+                            left: 24,
+                            right: 24,
+                            bottom: 20,
+                          ),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           controller: store.scrollController,
@@ -103,7 +106,9 @@ class _HomeViewState extends State<HomeView> {
                                       children: [
                                         Container(
                                           margin: const EdgeInsets.only(
-                                              left: 16, top: 10),
+                                            left: 16,
+                                            top: 10,
+                                          ),
                                           child: Text(
                                             pokemonsList[index].name,
                                             style: AppFonts.defaultFont(

@@ -44,8 +44,8 @@ void main() async {
 
 class MainModule extends Module {
   static const String initialRoute = '/';
-  static const String pokemonDetailsRoute = '/pokemon-details';
   static const String homeRoute = '/home';
+  static const String pokemonDetailsRoute = '/pokemon-details';
 
   @override
   void routes(r) {
