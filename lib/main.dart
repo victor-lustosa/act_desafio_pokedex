@@ -1,16 +1,13 @@
 import 'dart:async';
 
-import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'app/core/configs/app_routes.dart';
 import 'app/core/configs/no_glow_behavior.dart';
 import 'app/core/di/dependencies_injection.dart';
 import 'app/design_system/configs/app_themes.dart';
 import 'app/ui/views/home_view.dart';
-import 'app/ui/views/pokemon_details_view.dart';
 import 'app/ui/views/splash_view.dart';
 
 void main() async {
@@ -56,13 +53,6 @@ class MainModule extends Module {
       homeRoute,
       child: (_) => HomeView(),
     );
-    r.child(
-      pokemonDetailsRoute,
-      transition: TransitionType.custom,
-      customTransition: ModularSlideTransition(),
-      child: (args) => PokemonDetailsView(
-        entity: r.args.data as PokemonEntity,
-      ),
-    );
+
   }
 }
