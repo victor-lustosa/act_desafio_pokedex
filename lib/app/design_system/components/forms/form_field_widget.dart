@@ -11,7 +11,7 @@ class FormFieldWidget extends StatefulWidget {
         required this.validator,
         required this.isValid,
         required this.inputDecoration,
-        required this.controller,
+        this.controller,
         this.fieldKey,
         this.isSubmitted,
         this.maxLength,
@@ -41,7 +41,7 @@ class FormFieldWidget extends StatefulWidget {
   final EdgeInsetsGeometry? titleMargin;
   final EdgeInsetsGeometry? fieldMargin;
   final Key? fieldKey;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool? isSubmitted;
   final int? maxLength;
   final TextInputType? keyboardType;

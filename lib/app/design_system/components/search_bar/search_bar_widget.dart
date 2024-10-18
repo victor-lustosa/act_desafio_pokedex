@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +10,12 @@ import '../forms/form_field_widget.dart';
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget(
       {super.key,
-      required this.controller,
+      this.controller,
       this.searchAction,
       this.onChange,
       this.cleanAction});
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final void Function()? searchAction;
   final void Function()? cleanAction;
   final void Function(String)? onChange;
@@ -58,31 +56,32 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               isValid: isValid,
               validator: (value) => null,
               inputDecoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintStyle: AppFonts.defaultFont(
-                    fontSize: 14,
-                    color: AppColors.lightBlue,
+                border: InputBorder.none,
+                hintStyle: AppFonts.defaultFont(
+                  fontSize: 14,
+                  color: AppColors.lightBlue,
+                ),
+                contentPadding: const EdgeInsets.only(
+                  left: 16,
+                  bottom: 14,
+                ),
+                suffixIconConstraints: BoxConstraints(
+                  minHeight: 24,
+                  minWidth: 24,
+                ),
+                hintText: 'Digite o nome de um pokemon',
+                suffixIcon: IconButtonWidget(
+                  margin: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
                   ),
-                  contentPadding: const EdgeInsets.only(
-                    left: 16,
-                    bottom: 14,
-                  ),
-                  suffixIconConstraints: BoxConstraints(
-                    minHeight: 24,
-                    minWidth: 24,
-                  ),
-                  hintText: 'Digite o nome de um pokemon',
-                  suffixIcon: IconButtonWidget(
-                    margin: EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                    ),
-                    size: 24,
-                    color: AppColors.darkBlue,
-                    iOSIcon: CupertinoIcons.clear,
-                    androidIcon: Icons.close_rounded,
-                    action: widget.cleanAction,
-                  )),
+                  size: 24,
+                  color: AppColors.darkBlue,
+                  iOSIcon: CupertinoIcons.clear,
+                  androidIcon: Icons.close_rounded,
+                  action: widget.cleanAction,
+                ),
+              ),
               colorStyle: AppColors.darkBlue,
             ),
           ),
@@ -92,7 +91,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               size: 40,
               sizeIcon: 24,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                  color: AppColors.white,
                   border: Border.all(
                     width: 1.5,
                     color: AppColors.lightBlue,

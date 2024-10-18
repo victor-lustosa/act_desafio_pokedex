@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  AppColors._();
   //primary
   static const Color darkBlue = Color(0xFF121CA8);
   static const Color lightBlue = Color.fromRGBO(18, 28, 168, 0.2);
@@ -17,7 +18,7 @@ class AppColors {
   static const Color secondaryBlue = Color(0xFF616AEA);
   static const Color primaryColorTheme = Color(0xFFFAFAFA);
   static const Color formGrey = Color(0xFf979797);
-
+  static const Color cardTitle = Color.fromRGBO(18, 28, 168, .8);
   static const Color hintInputForm = Color(0xFFA3A3A3); //system colors ios
   static const Color delete = Color(0xFFFF3B30);
 }

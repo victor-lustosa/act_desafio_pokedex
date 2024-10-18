@@ -198,12 +198,13 @@ mixin _$HomeStoreImpl on HomeStore, Store {
     return _$modalOpenedAsyncAction.run(() => super.modalOpened(entity));
   }
 
-  late final _$showDialogAsyncAction =
-      AsyncAction('HomeStore.showDialog', context: context);
+  late final _$showDetailsAsyncAction =
+      AsyncAction('HomeStore.showDetails', context: context);
 
   @override
-  Future<void> showDialog(PokemonEntity entity) {
-    return _$showDialogAsyncAction.run(() => super.showDialog(entity));
+  Future<void> showDetails(PokemonEntity entity, BuildContext context) {
+    return _$showDetailsAsyncAction
+        .run(() => super.showDetails(entity, context));
   }
 
   late final _$fetchDataAsyncAction =

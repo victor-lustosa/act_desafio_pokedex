@@ -1,4 +1,6 @@
+import 'package:act_desafio_pokedex/main.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/domain/entities/pokemon_detail_entity.dart';
@@ -107,28 +109,27 @@ abstract class HomeStore with Store {
   }
 
   @action
-  Future<void> showDialog(PokemonEntity entity) async {
-    state = LoadingState();
-    initialAction;
-    try {
-      final result = await _useCases.getPokemonDetail(entity.name);
-      result.fold(
-          (DetailException e) => {
-                state = ExceptionState(message: e.message),
-                initialAction
-              },
-          (entity) async => {
-                if (entity != null) {
-                    await modalOpened(entity),
-                    previousAction,
-                    isNextButtonVisible = true,
-                    searchController.text = ''
-                  } else {
-                    state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.'),
-                    initialAction
-                  }
-              });
-    } on Exception catch (_) {}
+  Future<void> showDetails(PokemonEntity entity,BuildContext context) async {
+    Modular.to.pushNamed(MainModule.pokemonDetailsRoute);
+    // try {
+    //   final result = await _useCases.getPokemonDetail(entity.name);
+    //   result.fold(
+    //       (DetailException e) => {
+    //             state = ExceptionState(message: e.message),
+    //             initialAction
+    //           },
+    //       (entity) async => {
+    //             if (entity != null) {
+    //                 await modalOpened(entity),
+    //                 previousAction,
+    //                 isNextButtonVisible = true,
+    //                 searchController.text = ''
+    //               } else {
+    //                 state = ExceptionState(message: 'Ocorreu um erro ao trazer os dados.'),
+    //                 initialAction
+    //               }
+    //           });
+    // } on Exception catch (_) {}
   }
 
   callPreviousPage() {
