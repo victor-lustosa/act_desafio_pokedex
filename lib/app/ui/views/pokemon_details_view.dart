@@ -2,7 +2,6 @@ import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:act_desafio_pokedex/app/design_system/configs/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../design_system/components/app_bar/app_bar_widget.dart';
 import '../../design_system/components/top_bar/top_bar_widget.dart';
 
 class PokemonDetailsView extends StatefulWidget {

@@ -1,4 +1,3 @@
-import 'package:act_desafio_pokedex/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

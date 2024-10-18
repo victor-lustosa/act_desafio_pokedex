@@ -1,12 +1,8 @@
 import 'package:act_desafio_pokedex/app/design_system/components/top_bar/top_bar_widget.dart';
-import 'package:act_desafio_pokedex/app/design_system/configs/app_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../ui/stores/home_store.dart';
-import '../../configs/app_colors.dart';
-import '../../configs/app_images.dart';
-import '../buttons/icon_button_widget.dart';
 import '../search_bar/search_bar_widget.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
