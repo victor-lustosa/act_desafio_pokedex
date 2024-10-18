@@ -61,7 +61,7 @@ class MainModule extends Module {
       transition: TransitionType.custom,
       customTransition: ModularSlideTransition(),
       child: (args) => PokemonDetailsView(
-        entity: r.args.data,
+        entity: r.args.data as PokemonEntity,
       ),
     );
   }
