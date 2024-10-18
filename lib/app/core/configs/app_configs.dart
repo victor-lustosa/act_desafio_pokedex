@@ -2,19 +2,10 @@ import 'package:flutter/material.dart';
 
 extension BuildContextExtensions on BuildContext {
 
-  Rect? get globalPaintBounds {
-    final renderObject = findRenderObject();
-    final translation = renderObject?.getTransformTo(null).getTranslation();
-    if (translation != null && renderObject?.paintBounds != null) {
-      final offset = Offset(translation.x, translation.y);
-      return renderObject!.paintBounds.shift(offset);
-    } else {
-      return null;
-    }
-  }
-
   ThemeData get theme => Theme.of(this);
+
   NavigatorState get navigator => Navigator.of(this);
+
   TextTheme get textTheme => theme.textTheme;
 
   ColorScheme get colorScheme => theme.colorScheme;
@@ -35,6 +26,7 @@ extension BuildContextExtensions on BuildContext {
 }
 
 extension WidgetStateHelpers on Iterable<WidgetState> {
+
   bool get isHovered => contains(WidgetState.hovered);
 
   bool get isFocused => contains(WidgetState.focused);
