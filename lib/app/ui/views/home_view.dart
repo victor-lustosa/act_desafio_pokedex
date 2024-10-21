@@ -1,6 +1,4 @@
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
-import 'package:act_desafio_pokedex/app/shared/views_exceptions/default_error_message_exception.dart';
-import 'package:act_desafio_pokedex/app/ui/components/search_not_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,6 +11,8 @@ import '../../design_system/components/loadings/loadings_widget.dart';
 import '../../design_system/configs/app_colors.dart';
 import '../../design_system/configs/app_fonts.dart';
 import '../../shared/states/generic_states.dart';
+import '../../shared/views_exceptions/default_error_message_exception.dart';
+import '../components/search_not_found_widget.dart';
 import '../stores/home_store.dart';
 
 class HomeView extends StatefulWidget {

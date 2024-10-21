@@ -1,3 +1,4 @@
+
 import 'package:act_desafio_pokedex/app/core/configs/app_configs.dart';
 import 'package:act_desafio_pokedex/app/core/domain/entities/pokemon_detail_entity.dart';
 import 'package:act_desafio_pokedex/app/design_system/configs/app_colors.dart';
@@ -136,6 +137,7 @@ class _PokemonDetailsViewState extends State<PokemonDetailsView> {
                                       child: ListView.separated(
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
                                         itemCount:
                                             pokemonDetailsEntity!.types.length,
                                         separatorBuilder:
@@ -176,6 +178,7 @@ class _PokemonDetailsViewState extends State<PokemonDetailsView> {
                                     Expanded(
                                       child: ListView.separated(
                                         shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
                                         itemCount: pokemonDetailsEntity!
                                             .abilities.length,
                                         separatorBuilder:
