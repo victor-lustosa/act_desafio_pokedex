@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../ui/stores/home_store.dart';
+import '../../ui/stores/pokemon_details_store.dart';
 import '../../ui/stores/splash_store.dart';
 import '../external/dio_external.dart';
 import '../infra/repositories/pokemon_repository_impl.dart';
@@ -15,4 +16,5 @@ initDependencies(){
   injector.registerSingleton<PokemonRepositoryImpl>(PokemonRepositoryImpl(client: DioExternal(dio: Dio())));
   injector.registerSingleton<PokemonUseCasesImpl>(PokemonUseCasesImpl(repository: injector.get<PokemonRepositoryImpl>()));
   injector.registerSingleton<HomeStore>(HomeStoreImpl(useCases: injector.get<PokemonUseCasesImpl>()));
+  injector.registerSingleton<PokemonDetailsStore>(PokemonDetailsStoreImpl(useCases: injector.get<PokemonUseCasesImpl>()));
 }
